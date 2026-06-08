@@ -51,8 +51,7 @@ export default function Navbar() {
                 });
                 
                 if (scrollContainer && el) {
-                  const topPos = el.getBoundingClientRect().top + scrollContainer.scrollTop - scrollContainer.getBoundingClientRect().top;
-                  scrollContainer.scrollTo({ top: topPos, behavior: 'smooth' });
+                  scrollContainer.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
                 }
               }} 
               className="text-slate-600 hover:text-wellness-600 transition-colors text-sm cursor-pointer"

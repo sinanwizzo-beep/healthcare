@@ -71,8 +71,7 @@ export default function Services() {
       });
       
       if (scrollContainer && el) {
-        const topPos = el.getBoundingClientRect().top + scrollContainer.scrollTop - scrollContainer.getBoundingClientRect().top;
-        scrollContainer.scrollTo({ top: topPos, behavior: 'smooth' });
+        scrollContainer.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
       }
     }, 150);
   };

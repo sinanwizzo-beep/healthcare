@@ -82,13 +82,27 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
           >
-            <button className="bg-white/90 backdrop-blur-xl border border-slate-200 hover:bg-white transition-colors text-slate-800 px-6 py-3 rounded-full flex items-center gap-3 text-sm font-bold shadow-sm">
+            <button 
+              onClick={() => {
+                const el = document.getElementById('testimonials');
+                const divs = Array.from(document.querySelectorAll('div'));
+                const scrollContainer = divs.find(container => {
+                  const style = window.getComputedStyle(container);
+                  return (style.overflowY === 'auto' || style.overflowY === 'scroll' || style.overflow === 'auto') && container.scrollHeight > window.innerHeight;
+                });
+                
+                if (scrollContainer && el) {
+                  scrollContainer.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+                }
+              }}
+              className="bg-white/90 backdrop-blur-xl border border-slate-200 hover:bg-white transition-colors text-slate-800 px-6 py-3 rounded-full flex items-center gap-3 text-sm font-bold shadow-sm"
+            >
               <div className="flex gap-1">
                 <div className="w-1 h-3 bg-slate-400 rounded-full animate-pulse"></div>
                 <div className="w-1 h-4 bg-wellness-500 rounded-full animate-pulse delay-75"></div>
                 <div className="w-1 h-2 bg-slate-400 rounded-full animate-pulse delay-150"></div>
               </div>
-              Music
+              Stories
             </button>
           </motion.div>
 
@@ -124,7 +138,21 @@ export default function Hero() {
               <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=60&q=80" className="w-10 h-10 rounded-lg object-cover border border-slate-200 shadow-sm" alt="Thumb" />
             </div>
 
-            <div className="bg-white/90 backdrop-blur-xl border border-slate-200 text-slate-800 px-6 py-3 rounded-full flex items-center gap-4 shadow-sm min-w-[220px] cursor-pointer hover:bg-white transition-colors">
+            <div
+              onClick={() => {
+                const el = document.getElementById('contact');
+                const divs = Array.from(document.querySelectorAll('div'));
+                const scrollContainer = divs.find(container => {
+                  const style = window.getComputedStyle(container);
+                  return (style.overflowY === 'auto' || style.overflowY === 'scroll' || style.overflow === 'auto') && container.scrollHeight > window.innerHeight;
+                });
+
+                if (scrollContainer && el) {
+                  scrollContainer.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+                }
+              }}
+              className="bg-white/90 backdrop-blur-xl border border-slate-200 text-slate-800 px-6 py-3 rounded-full flex items-center gap-4 shadow-sm min-w-[220px] cursor-pointer hover:bg-white transition-colors"
+            >
               <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-emerald-400 to-cyan-400 flex-shrink-0"></div>
               <span className="text-sm font-bold text-slate-700">Ask anything</span>
               <div className="ml-auto flex gap-0.5">
