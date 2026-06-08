@@ -30,7 +30,7 @@ function App() {
           <Lightformer intensity={2} position={[-10, -5, 0]} scale={[10, 50, 1]} />
         </Environment>
 
-        <ScrollControls pages={5.8} damping={0.25} distance={1.2}>
+        <ScrollControls pages={5.3} damping={0.25} distance={1.2}>
           {/* The 3D animation that reacts to scroll */}
           <DNAHelix />
           
