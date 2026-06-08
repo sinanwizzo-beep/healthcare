@@ -10,7 +10,7 @@ export default function Details() {
   ];
 
   return (
-    <section className="w-full py-10 px-6 pointer-events-none flex items-center justify-center">
+    <section id="impact" className="w-full py-10 px-6 pointer-events-none flex items-center justify-center">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

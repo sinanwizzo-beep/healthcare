@@ -4,14 +4,14 @@ import { Sparkles, Play, Search, Heart, ShieldCheck, Star } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="relative h-[100vh] w-full flex items-center justify-center overflow-hidden">
-      
+    <section id="hero" className="relative h-[100vh] w-full flex items-center justify-center overflow-hidden">
+
       {/* Full Screen Background Image with Overlay */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         {/* Double-exposure / nature aesthetic image */}
-        <img 
-          src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=2000&q=80" 
-          alt="Immersive Wellness" 
+        <img
+          src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=2000&q=80"
+          alt="Immersive Wellness"
           className="w-full h-full object-cover opacity-50 mix-blend-multiply"
         />
         {/* Gradients to blend the image into the 3D background behind it */}
@@ -21,9 +21,9 @@ export default function Hero() {
 
       {/* Main Content Container */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 h-full flex flex-col justify-center pointer-events-none">
-        
+
         {/* Center Main Text */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -42,7 +42,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Left Side Italic Text */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
@@ -54,7 +54,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Right Side Testimonial */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
@@ -75,9 +75,9 @@ export default function Hero() {
 
         {/* Bottom Elements Wrapper */}
         <div className="absolute bottom-10 left-0 right-0 px-6 md:px-12 flex justify-between items-end pointer-events-auto">
-          
+
           {/* Bottom Left Pill */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -93,7 +93,7 @@ export default function Hero() {
           </motion.div>
 
           {/* Bottom Center Dock */}
-          <motion.div 
+          {/* <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
@@ -108,10 +108,10 @@ export default function Hero() {
               <button className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-wellness-600 transition-all"><Star className="h-4 w-4" /></button>
             </div>
             <div className="text-slate-800 font-bold text-sm">Meditation</div>
-          </motion.div>
+          </motion.div> */}
 
           {/* Bottom Right Search Pill */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.7 }}

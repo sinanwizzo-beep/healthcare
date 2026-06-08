@@ -4,7 +4,7 @@ import { Leaf, Award, Globe2 } from 'lucide-react';
 
 export default function About() {
   return (
-    <section className="min-h-[100vh] w-full flex items-center justify-center py-20 px-6 relative pointer-events-none">
+    <section id="about" className="min-h-[100vh] w-full flex items-center justify-center py-20 px-6 relative pointer-events-none">
       <div className="max-w-7xl mx-auto w-full pointer-events-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           
@@ -54,7 +54,7 @@ export default function About() {
             className="relative h-[600px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/20 group"
           >
              <img 
-               src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80" 
+               src="/assets/meditating-woman.png" 
                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                alt="About Us" 
              />

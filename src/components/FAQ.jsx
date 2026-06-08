@@ -25,7 +25,7 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section className="min-h-[100vh] w-full flex items-center justify-center py-24 px-6 relative pointer-events-none">
+    <section id="faq" className="min-h-[100vh] w-full flex items-center justify-center py-24 px-6 relative pointer-events-none">
       <div className="max-w-4xl mx-auto w-full pointer-events-auto">
         
         {/* Header */}

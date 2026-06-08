@@ -10,7 +10,17 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         
         {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer">
+        <div 
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => {
+            const divs = Array.from(document.querySelectorAll('div'));
+            const scrollContainer = divs.find(el => {
+              const style = window.getComputedStyle(el);
+              return (style.overflowY === 'auto' || style.overflowY === 'scroll' || style.overflow === 'auto') && el.scrollHeight > window.innerHeight;
+            });
+            if(scrollContainer) scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        >
           <div className="w-5 h-5 border-2 border-slate-900 rounded-full flex items-center justify-center">
              <div className="w-1.5 h-1.5 bg-slate-900 rounded-full"></div>
           </div>
@@ -21,41 +31,35 @@ export default function Navbar() {
         
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-8 font-medium">
-          <button onClick={() => {
-            const divs = Array.from(document.querySelectorAll('div'));
-            const scrollContainer = divs.find(el => {
-              const style = window.getComputedStyle(el);
-              return (style.overflowY === 'auto' || style.overflowY === 'scroll' || style.overflow === 'auto') && el.scrollHeight > window.innerHeight;
-            });
-            if(scrollContainer) scrollContainer.scrollTo({ top: window.innerHeight * 1, behavior: 'smooth' });
-          }} className="text-slate-600 hover:text-wellness-600 transition-colors text-sm cursor-pointer">Programs</button>
-          
-          <button onClick={() => {
-            const divs = Array.from(document.querySelectorAll('div'));
-            const scrollContainer = divs.find(el => {
-              const style = window.getComputedStyle(el);
-              return (style.overflowY === 'auto' || style.overflowY === 'scroll' || style.overflow === 'auto') && el.scrollHeight > window.innerHeight;
-            });
-            if(scrollContainer) scrollContainer.scrollTo({ top: window.innerHeight * 2, behavior: 'smooth' });
-          }} className="text-slate-600 hover:text-wellness-600 transition-colors text-sm cursor-pointer">About Us</button>
-          
-          <button onClick={() => {
-            const divs = Array.from(document.querySelectorAll('div'));
-            const scrollContainer = divs.find(el => {
-              const style = window.getComputedStyle(el);
-              return (style.overflowY === 'auto' || style.overflowY === 'scroll' || style.overflow === 'auto') && el.scrollHeight > window.innerHeight;
-            });
-            if(scrollContainer) scrollContainer.scrollTo({ top: window.innerHeight * 3, behavior: 'smooth' });
-          }} className="text-slate-600 hover:text-wellness-600 transition-colors text-sm cursor-pointer">FAQ</button>
-          
-          <button onClick={() => {
-            const divs = Array.from(document.querySelectorAll('div'));
-            const scrollContainer = divs.find(el => {
-              const style = window.getComputedStyle(el);
-              return (style.overflowY === 'auto' || style.overflowY === 'scroll' || style.overflow === 'auto') && el.scrollHeight > window.innerHeight;
-            });
-            if(scrollContainer) scrollContainer.scrollTo({ top: window.innerHeight * 4, behavior: 'smooth' });
-          }} className="text-slate-600 hover:text-wellness-600 transition-colors text-sm cursor-pointer">Impact</button>
+          {[
+            { label: 'About Us', id: 'about' },
+            { label: 'Programs', id: 'programs' },
+            { label: 'Tour', id: 'tour' },
+            { label: 'Stories', id: 'testimonials' },
+            { label: 'Impact', id: 'impact' },
+            { label: 'FAQ', id: 'faq' },
+            { label: 'Contact', id: 'contact' },
+          ].map((item) => (
+            <button 
+              key={item.id}
+              onClick={() => {
+                const el = document.getElementById(item.id);
+                const divs = Array.from(document.querySelectorAll('div'));
+                const scrollContainer = divs.find(container => {
+                  const style = window.getComputedStyle(container);
+                  return (style.overflowY === 'auto' || style.overflowY === 'scroll' || style.overflow === 'auto') && container.scrollHeight > window.innerHeight;
+                });
+                
+                if (scrollContainer && el) {
+                  const topPos = el.getBoundingClientRect().top + scrollContainer.scrollTop - scrollContainer.getBoundingClientRect().top;
+                  scrollContainer.scrollTo({ top: topPos, behavior: 'smooth' });
+                }
+              }} 
+              className="text-slate-600 hover:text-wellness-600 transition-colors text-sm cursor-pointer"
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
 
         {/* Right CTA Buttons */}

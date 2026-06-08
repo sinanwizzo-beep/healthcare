@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, CheckCircle2, ShieldPlus, Leaf, Brain, Heart, Activity, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CheckCircle2, ShieldPlus, Leaf, Brain, Heart, Activity, ArrowRight, X } from 'lucide-react';
 
 const servicesData = [
   {
@@ -57,6 +58,24 @@ const servicesData = [
 
 export default function Services() {
   const [currentIndex, setCurrentIndex] = useState(1);
+  const [selectedService, setSelectedService] = useState(null);
+
+  const scrollToContact = () => {
+    setSelectedService(null); // Close modal
+    setTimeout(() => {
+      const el = document.getElementById('contact');
+      const divs = Array.from(document.querySelectorAll('div'));
+      const scrollContainer = divs.find(container => {
+        const style = window.getComputedStyle(container);
+        return (style.overflowY === 'auto' || style.overflowY === 'scroll' || style.overflow === 'auto') && container.scrollHeight > window.innerHeight;
+      });
+      
+      if (scrollContainer && el) {
+        const topPos = el.getBoundingClientRect().top + scrollContainer.scrollTop - scrollContainer.getBoundingClientRect().top;
+        scrollContainer.scrollTo({ top: topPos, behavior: 'smooth' });
+      }
+    }, 150);
+  };
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % servicesData.length);
@@ -75,7 +94,8 @@ export default function Services() {
   const visibleCards = getVisibleCards();
 
   return (
-    <section className="h-[100vh] w-full flex flex-col items-center justify-center relative pointer-events-none">
+    <>
+    <section id="programs" className="h-[100vh] w-full flex flex-col items-center justify-center relative pointer-events-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pointer-events-auto">
         <div className="text-center max-w-3xl mx-auto mb-10">
           {/* <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 drop-shadow-sm">Featured Programs & Care</h2> */}
@@ -124,57 +144,71 @@ export default function Services() {
                     }}
                     exit={{ opacity: 0, scale: 0.8, x: isLeft ? -100 : isRight ? 100 : 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="absolute w-full max-w-[340px] md:max-w-[400px] bg-white/80 backdrop-blur-2xl rounded-[2rem] overflow-hidden shadow-2xl border border-white/50"
+                    className="absolute w-full max-w-[340px] md:max-w-[420px] bg-white rounded-[2.5rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100/50"
                     onClick={() => {
                       if (isLeft) handlePrev();
                       if (isRight) handleNext();
                     }}
                     style={{ cursor: isCenter ? 'default' : 'pointer' }}
                   >
-                    {/* Card Header Image */}
-                    <div className="relative h-44 w-full">
-                      <img src={card.image} alt={card.title} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    {/* Card Header Image - Framed Style */}
+                    <div className="relative h-60 w-full p-2.5">
+                      <div className="w-full h-full rounded-[2rem] overflow-hidden relative">
+                        <img src={card.image} alt={card.title} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent" />
+                        
+                        {/* Elegant Category Badge */}
+                        <div className="absolute top-4 right-4 px-4 py-1.5 rounded-full text-xs font-bold bg-white/90 backdrop-blur-md text-slate-900 shadow-sm">
+                          {card.category}
+                        </div>
 
-                      {/* Floating Icon */}
-                      <div className={`absolute top-4 left-4 p-2 rounded-xl bg-white/90 backdrop-blur-md border border-white/50 shadow-lg ${isWellness ? 'text-wellness-600' : 'text-illness-600'}`}>
-                        <Icon className="h-6 w-6" />
-                      </div>
-
-                      {/* Category Badge */}
-                      <div className={`absolute top-4 right-4 px-4 py-1.5 rounded-full text-xs font-bold shadow-lg border ${isWellness ? 'bg-wellness-500 text-white border-wellness-400' : 'bg-illness-500 text-white border-illness-400'}`}>
-                        {card.category}
+                        {/* Floating Icon */}
+                        <div className="absolute bottom-4 left-4 p-2.5 rounded-2xl bg-white/90 backdrop-blur-md text-slate-900 shadow-sm">
+                          <Icon className="h-5 w-5" />
+                        </div>
                       </div>
                     </div>
 
                     {/* Card Content */}
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-slate-900 mb-2">{card.title}</h3>
-                      <p className="text-xs font-semibold text-slate-500 mb-4 flex items-center gap-1.5">
-                        <CheckCircle2 className={`h-4 w-4 ${isWellness ? 'text-wellness-500' : 'text-blue-500'}`} />
+                    <div className="px-8 pt-4 pb-8">
+                      <h3 className="text-2xl font-semibold tracking-tight text-slate-900 mb-2">{card.title}</h3>
+                      <p className="text-sm font-medium text-slate-500 mb-5 flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-wellness-600" />
                         {card.subtitle}
                       </p>
 
-                      {/* Pill Badges */}
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      {/* Minimalist Badges */}
+                      <div className="flex flex-wrap gap-2 mb-6">
                         {card.badges.map((badge, idx) => (
-                          <span key={idx} className={`text-[10px] font-bold px-2 py-1 rounded-full border ${isWellness ? 'bg-wellness-50 text-wellness-700 border-wellness-200' : 'bg-blue-50 text-blue-700 border-blue-200'}`}>
+                          <span key={idx} className="text-[10px] font-semibold px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50 text-slate-600 tracking-wide uppercase">
                             {badge}
                           </span>
                         ))}
                       </div>
 
-                      <p className="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-2 font-medium">
+                      <p className="text-slate-600 text-sm leading-relaxed mb-8 line-clamp-2">
                         {card.description}
                       </p>
 
-                      {/* Actions */}
-                      <div className="flex items-center gap-3 mt-auto">
-                        <button className={`flex-1 py-3 px-4 rounded-xl font-bold text-xs text-white transition-all shadow-lg ${isWellness ? 'bg-wellness-600 hover:bg-wellness-700 shadow-wellness-600/20' : 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/20'}`}>
-                          VIEW DETAILS
+                      {/* Premium Actions */}
+                      <div className="flex items-center gap-3 mt-auto pointer-events-auto">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedService(card);
+                          }}
+                          className="flex-1 py-3.5 px-6 rounded-2xl font-bold text-sm text-white bg-slate-900 hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20"
+                        >
+                          View Details
                         </button>
-                        <button className={`p-3 rounded-xl border transition-all ${isWellness ? 'border-wellness-200 text-wellness-600 hover:bg-wellness-50' : 'border-blue-200 text-blue-600 hover:bg-blue-50'}`}>
-                          <ArrowRight className="h-5 w-5" />
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            scrollToContact();
+                          }}
+                          className="p-3.5 rounded-2xl border border-slate-200 text-slate-900 hover:bg-slate-50 transition-colors group"
+                        >
+                          <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                         </button>
                       </div>
                     </div>
@@ -186,5 +220,81 @@ export default function Services() {
         </div>
       </div>
     </section>
+
+    {/* View Details Modal via Portal */}
+    {typeof document !== 'undefined' && createPortal(
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 pointer-events-auto"
+          >
+            {/* Backdrop */}
+            <div 
+              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+              onClick={() => setSelectedService(null)}
+            ></div>
+            
+            {/* Modal Content */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl overflow-hidden z-10 flex flex-col md:flex-row"
+            >
+              {/* Image Side */}
+              <div className="md:w-2/5 h-48 md:h-auto relative">
+                <img src={selectedService.image} alt={selectedService.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
+                <div className="absolute bottom-4 left-4">
+                  <span className="px-3 py-1 bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-full text-xs font-bold shadow-sm">
+                    {selectedService.category}
+                  </span>
+                </div>
+              </div>
+              
+              {/* Text Side */}
+              <div className="md:w-3/5 p-8 flex flex-col justify-center relative">
+                <button 
+                  onClick={() => setSelectedService(null)}
+                  className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 bg-slate-50 hover:bg-slate-100 rounded-full transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+                
+                <h3 className="text-2xl font-bold text-slate-900 mb-2 pr-8">{selectedService.title}</h3>
+                <p className="text-sm font-semibold text-wellness-600 mb-4">{selectedService.subtitle}</p>
+                
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {selectedService.badges.map((badge, idx) => (
+                    <span key={idx} className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 uppercase tracking-wider">
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+                
+                <p className="text-slate-600 text-sm leading-relaxed mb-8">
+                  {selectedService.description}
+                  {" "}This program involves top-tier specialists, personalized itineraries, and 24/7 concierge support to ensure your absolute comfort and successful outcomes.
+                </p>
+                
+                <button 
+                  onClick={scrollToContact}
+                  className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-slate-900/10 group"
+                >
+                  Inquire Now
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>,
+      document.body
+    )}
+    </>
   );
 }

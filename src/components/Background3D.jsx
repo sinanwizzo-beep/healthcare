@@ -9,9 +9,9 @@ const PremiumWellnessOrb = () => {
   const scroll = useScroll();
 
   // Slate grey for Illness (stressed, dull)
-  const colorIllness = useMemo(() => new THREE.Color('#94a3b8'), []);
-  // Emerald for Wellness (calm, vibrant)
-  const colorWellness = useMemo(() => new THREE.Color('#10b981'), []);
+  const colorIllness = useMemo(() => new THREE.Color('#cbd5e1'), []);
+  // Soft, frosted sage green for Wellness (calm, subtle)
+  const colorWellness = useMemo(() => new THREE.Color('#86efac'), []);
   const tempColor = useMemo(() => new THREE.Color(), []);
 
   useFrame((state) => {
@@ -66,12 +66,12 @@ const PremiumWellnessOrb = () => {
     <Sphere ref={meshRef} args={[7, 128, 128]} position={[-8, 0, -8]}>
       <MeshDistortMaterial
         ref={materialRef}
-        color="#94a3b8"
-        envMapIntensity={2.5}
-        clearcoat={1}
-        clearcoatRoughness={0.1}
+        color="#cbd5e1"
+        envMapIntensity={1.2}
+        clearcoat={0.8}
+        clearcoatRoughness={0.2}
         metalness={0.1}
-        roughness={0.2}
+        roughness={0.3}
         distort={0.6}
         speed={4}
         // Transmission makes it look like gorgeous, thick frosted glass or liquid
